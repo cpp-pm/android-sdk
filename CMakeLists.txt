@@ -11,6 +11,8 @@ HunterGate(
 
 project(AndroidSDK)
 
+include(hunter_internal_error)
+
 include(CMakeParseArguments)
 
 function(unified_install)
@@ -81,7 +83,26 @@ unified_install(
 ###
 hunter_add_package(Android-Google-APIs)
 
+file(
+    STRINGS
+    "${ANDROID-GOOGLE-APIS_ROOT}/manifest.ini"
+    revision
+    REGEX "^revision=[0-9]+$"
+)
+
+list(LENGTH revision len)
+
+if(NOT len EQUAL 1)
+  hunter_internal_error("Expected exactly one revision line")
+endif()
+
+string(REPLACE "revision=" "" revision "${revision}")
+
 set(props "${CMAKE_BINARY_DIR}/gen/Android-Google-APIs/source.properties")
+
+# Used variables:
+#   * revision
+#   * HUNTER_Android-Google-APIs_VERSION
 configure_file("Android-Google-APIs.source.properties" "${props}" @ONLY)
 
 file(GLOB x "${ANDROID-GOOGLE-APIS_ROOT}/*")
