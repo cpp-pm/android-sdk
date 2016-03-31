@@ -5,10 +5,9 @@ cmake_minimum_required(VERSION 3.0)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/android-001.tar.gz"
-    SHA1 "bceb57f1d7da5c7b0ba67339377a3866b5e530f0"
+    URL "https://github.com/ruslo/hunter/archive/v0.14.8.tar.gz"
+    SHA1 "665c40e21fbff34759dd7d85f6ba388adabb0a4e"
 )
-
 project(AndroidSDK)
 
 option(ANDROID_SDK_WITH_GOOGLE_APIS "Install Android-Google-APIs" OFF)
