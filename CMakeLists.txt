@@ -135,9 +135,9 @@ if(ANDROID_SDK_WITH_ANDROID_GOOGLE_APIS)
 
   set(props "${CMAKE_BINARY_DIR}/gen/Android-Google-APIs/source.properties")
 
-# Used variables:
-# * version
-# * revision
+  # Used variables:
+  # * version
+  # * revision
   configure_file("Android-Google-APIs.source.properties" "${props}" @ONLY)
 
   file(GLOB x "${ANDROID-GOOGLE-APIS_ROOT}/*")
