@@ -112,10 +112,13 @@ unified_install(
 
 ###
 hunter_add_package(Sources-for-Android-SDK)
+
+set(android_sdk_version "${HUNTER_Sources-for-Android-SDK_VERSION}")
+
 file(GLOB x "${SOURCES-FOR-ANDROID-SDK_ROOT}/*")
 unified_install(
     OBJECTS ${x}
-    DESTINATION "sources/android-${HUNTER_Sources-for-Android-SDK_VERSION}"
+    DESTINATION "sources/android-${android_sdk_version}"
 )
 
 ###
