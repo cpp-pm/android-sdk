@@ -11,6 +11,9 @@ HunterGate(
 
 project(AndroidSDK)
 
+option(ANDROID_SDK_WITH_GOOGLE_APIS "Install Android-Google-APIs" OFF)
+option(ANDROID_SDK_WITH_INTEL_X86_ATOM_SYSTEM_IMAGE "Install Android-Intel-x86-Atom-System-Image" OFF)
+
 include(CMakeParseArguments)
 
 function(unified_install)
@@ -122,27 +125,29 @@ unified_install(
 )
 
 ###
-hunter_add_package(Android-Google-APIs)
+if(ANDROID_SDK_WITH_ANDROID_GOOGLE_APIS)
+  hunter_add_package(Android-Google-APIs)
 
-parse_version_revision(
-    FULL "${HUNTER_Android-Google-APIs_VERSION}"
-    VERSION version
-    REVISION revision
-)
+  parse_version_revision(
+      FULL "${HUNTER_Android-Google-APIs_VERSION}"
+      VERSION version
+      REVISION revision
+  )
 
-set(props "${CMAKE_BINARY_DIR}/gen/Android-Google-APIs/source.properties")
+  set(props "${CMAKE_BINARY_DIR}/gen/Android-Google-APIs/source.properties")
 
 # Used variables:
 # * version
 # * revision
-configure_file("Android-Google-APIs.source.properties" "${props}" @ONLY)
+  configure_file("Android-Google-APIs.source.properties" "${props}" @ONLY)
 
-file(GLOB x "${ANDROID-GOOGLE-APIS_ROOT}/*")
+  file(GLOB x "${ANDROID-GOOGLE-APIS_ROOT}/*")
 
-unified_install(
-    OBJECTS ${x} ${props}
-    DESTINATION "add-ons/addon-google_apis-google-${version}"
-)
+  unified_install(
+      OBJECTS ${x} ${props}
+      DESTINATION "add-ons/addon-google_apis-google-${version}"
+  )
+endif()
 
 ###
 if(android_sdk_version VERSION_LESS 21)
@@ -157,12 +162,14 @@ else()
 endif()
 
 ###
-hunter_add_package(Android-Intel-x86-Atom-System-Image)
-file(GLOB x "${ANDROID-INTEL-X86-ATOM-SYSTEM-IMAGE_ROOT}/*")
-unified_install(
-    OBJECTS ${x}
-    DESTINATION "system-images/android-${HUNTER_Android-Intel-x86-Atom-System-Image_VERSION}/default/x86"
-)
+if(ANDROID_SDK_WITH_INTEL_X86_ATOM_SYSTEM_IMAGE)
+  hunter_add_package(Android-Intel-x86-Atom-System-Image)
+  file(GLOB x "${ANDROID-INTEL-X86-ATOM-SYSTEM-IMAGE_ROOT}/*")
+  unified_install(
+      OBJECTS ${x}
+      DESTINATION "system-images/android-${HUNTER_Android-Intel-x86-Atom-System-Image_VERSION}/default/x86"
+  )
+endif()
 
 ###
 hunter_add_package(Android-Support-Repository)
