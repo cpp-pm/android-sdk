@@ -99,9 +99,14 @@ unified_install(OBJECTS ${x} DESTINATION "platform-tools")
 ###
 hunter_add_package(Android-SDK-Platform)
 file(GLOB x "${ANDROID-SDK-PLATFORM_ROOT}/*")
+parse_version_revision(
+    FULL "${HUNTER_Android-SDK-Platform_VERSION}"
+    VERSION version
+    REVISION revision
+)
 unified_install(
     OBJECTS ${x}
-    DESTINATION "platforms/${HUNTER_Android-SDK-Platform_VERSION}"
+    DESTINATION "platforms/android-${version}"
 )
 
 ###
