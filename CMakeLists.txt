@@ -158,10 +158,16 @@ if(android_sdk_version VERSION_LESS 21)
   message("Skipping Android-Google-APIs-Intel-x86-Atom-System-Image (available since API 21)")
 else()
   hunter_add_package(Android-Google-APIs-Intel-x86-Atom-System-Image)
+  parse_version_revision(
+      FULL "${HUNTER_Android-Google-APIs-Intel-x86-Atom-System-Image_VERSION}"
+      VERSION version
+      REVISION revision
+  )
+
   file(GLOB x "${ANDROID-GOOGLE-APIS-INTEL-X86-ATOM-SYSTEM-IMAGE_ROOT}/*")
   unified_install(
       OBJECTS ${x}
-      DESTINATION "system-images/android-${HUNTER_Android-Google-APIs-Intel-x86-Atom-System-Image_VERSION}/google_apis/x86"
+      DESTINATION "system-images/android-${version}/google_apis/x86"
   )
 endif()
 
