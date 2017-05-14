@@ -1,17 +1,18 @@
-# Copyright (c) 2015, Ruslan Baratov
+# Copyright (c) 2015-2017, Ruslan Baratov
 # All rights reserved.
 
 cmake_minimum_required(VERSION 3.0)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.14.8.tar.gz"
-    SHA1 "665c40e21fbff34759dd7d85f6ba388adabb0a4e"
+    URL "https://github.com/ruslo/hunter/archive/v0.18.54.tar.gz"
+    SHA1 "48bfc4107a7a321e423b1fc1e2a840a38b1558f0"
 )
 project(AndroidSDK)
 
 option(ANDROID_SDK_WITH_GOOGLE_APIS "Install Android-Google-APIs" OFF)
 option(ANDROID_SDK_WITH_INTEL_X86_ATOM_SYSTEM_IMAGE "Install Android-Intel-x86-Atom-System-Image" OFF)
+option(ANDROID_SDK_WITH_ARM_EABI_V7A_SYSTEM_IMAGE "Install Android-ARM-EABI-v7a-System-Image" ON)
 
 include(CMakeParseArguments)
 
@@ -200,3 +201,19 @@ unified_install(
     OBJECTS ${x} ${props}
     DESTINATION "extras/google/m2repository"
 )
+
+###
+if(ANDROID_SDK_WITH_ARM_EABI_V7A_SYSTEM_IMAGE)
+  hunter_add_package(Android-ARM-EABI-v7a-System-Image)
+  file(GLOB x "${ANDROID-ARM-EABI-V7A-SYSTEM-IMAGE_ROOT}/*")
+  parse_version_revision(
+      FULL "${HUNTER_Android-ARM-EABI-v7a-System-Image_VERSION}"
+      VERSION version
+      REVISION revision
+  )
+
+  unified_install(
+      OBJECTS ${x}
+      DESTINATION "system-images/android-${version}/default/armeabi-v7a"
+  )
+endif()
